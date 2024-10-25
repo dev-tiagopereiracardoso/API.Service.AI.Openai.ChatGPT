@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{80C7CF53-A1C6-49AD-B22B-AE3B5C23A9CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-Presentation", "1-Presentation", "{7041FF98-741F-4042-9DB4-2C81AE56F08E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-Domain", "2-Domain", "{D96C815F-C1C3-4E63-B78E-FAAA70E98BC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-Infra", "3-Infra", "{46ABF45F-5AB7-4FCC-A4C7-DE125ADC1543}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Service.AI.Openai.ChatGPT.Service", "src\API.Service.AI.Openai.ChatGPT.Service\API.Service.AI.Openai.ChatGPT.Service.csproj", "{687D41E8-EE16-409C-8E54-D0573CB93C36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Service.AI.Openai.ChatGPT.Domain", "src\API.Service.AI.Openai.ChatGPT.Domain\API.Service.AI.Openai.ChatGPT.Domain.csproj", "{1E99B846-F5DF-4157-9F8A-B3D44B5AEF49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Service.AI.Openai.ChatGPT.Models", "src\API.Service.AI.Openai.ChatGPT.Models\API.Service.AI.Openai.ChatGPT.Models.csproj", "{9D7040C1-CBBE-494B-9563-B3D5885CD7B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6EE5ED02-9D54-4B2A-959A-14011F871F00}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{687D41E8-EE16-409C-8E54-D0573CB93C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{687D41E8-EE16-409C-8E54-D0573CB93C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{687D41E8-EE16-409C-8E54-D0573CB93C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{687D41E8-EE16-409C-8E54-D0573CB93C36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E99B846-F5DF-4157-9F8A-B3D44B5AEF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E99B846-F5DF-4157-9F8A-B3D44B5AEF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E99B846-F5DF-4157-9F8A-B3D44B5AEF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E99B846-F5DF-4157-9F8A-B3D44B5AEF49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D7040C1-CBBE-494B-9563-B3D5885CD7B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D7040C1-CBBE-494B-9563-B3D5885CD7B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D7040C1-CBBE-494B-9563-B3D5885CD7B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D7040C1-CBBE-494B-9563-B3D5885CD7B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7041FF98-741F-4042-9DB4-2C81AE56F08E} = {80C7CF53-A1C6-49AD-B22B-AE3B5C23A9CC}
+		{D96C815F-C1C3-4E63-B78E-FAAA70E98BC4} = {80C7CF53-A1C6-49AD-B22B-AE3B5C23A9CC}
+		{46ABF45F-5AB7-4FCC-A4C7-DE125ADC1543} = {80C7CF53-A1C6-49AD-B22B-AE3B5C23A9CC}
+		{687D41E8-EE16-409C-8E54-D0573CB93C36} = {7041FF98-741F-4042-9DB4-2C81AE56F08E}
+		{1E99B846-F5DF-4157-9F8A-B3D44B5AEF49} = {D96C815F-C1C3-4E63-B78E-FAAA70E98BC4}
+		{9D7040C1-CBBE-494B-9563-B3D5885CD7B5} = {46ABF45F-5AB7-4FCC-A4C7-DE125ADC1543}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F38BFA38-9121-4DAB-9A52-25C7D681900D}
+	EndGlobalSection
+EndGlobal
