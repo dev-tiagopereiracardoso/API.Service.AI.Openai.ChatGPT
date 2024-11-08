@@ -4,6 +4,8 @@ using API.Service.AI.Openai.ChatGPT.Models.Output;
 using ChatGPT.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using RestSharp;
 using System.Net;
 
 namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
@@ -28,9 +30,9 @@ namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
             var Validation = new EntitySelectOutput<T>();
             var result = new List<QuestionOutput>();
 
-            var openAiKey = _configuration["ApiKeyChatGPT"] ?? "";
+            var openApiKey = _configuration["ApiKeyChatGPT"] ?? "";
 
-            if (String.IsNullOrEmpty(openAiKey))
+            if (String.IsNullOrEmpty(openApiKey))
             {
                 _logger.LogError("key not found");
 
@@ -60,9 +62,18 @@ namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
                 return Validation;
             }
 
-            var openai = new ChatGpt(openAiKey);
+            var answer = "";
 
-            var answer = await openai.Ask(Obj.Question);
+            if (String.IsNullOrEmpty(Obj.UrlImage))
+            {
+                var openai = new ChatGpt(openApiKey);
+                answer = await openai.Ask(Obj.Question);
+            }
+            else
+            {
+                answer = SendMessage(openApiKey, Obj.UrlImage, Obj.Question);
+            }
+
             if (answer == null)
             {
                 _logger.LogError("unable to call chat gpt");
@@ -88,6 +99,25 @@ namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
             Validation.Items = (List<T>)Convert.ChangeType(result, typeof(List<T>));
 
             return Validation;
+        }
+
+        private string SendMessage(string OpenApiKey, string UrlImage, string Question)
+        {
+            var _client = new RestClient("https://api.openai.com/v1/chat/completions");
+
+            var request = new RestRequest("", Method.Post);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Authorization", $"Bearer {OpenApiKey}");
+
+            var requestBody = "{ \"model\": \"gpt-4o-mini\", \"messages\": [{ \"role\": \"user\", \"content\": [ { \"type\": \"text\", \"text\": \"" + Question + "\" }, { \"type\": \"image_url\", \"image_url\": { \"url\": \"" + UrlImage + "\" } }] }], \"max_tokens\": 300 }";
+
+            request.AddJsonBody(requestBody);
+
+            var response = _client.Execute(request);
+
+            var jsonResponse = JsonConvert.DeserializeObject<dynamic>(response.Content ?? string.Empty);
+
+            return jsonResponse?.choices[0]?.message?.content?.ToString()?.Trim() ?? string.Empty;
         }
     }
 }
