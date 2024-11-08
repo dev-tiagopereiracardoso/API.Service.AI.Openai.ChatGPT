@@ -21,7 +21,7 @@ namespace API.Service.AI.Openai.ChatGPT.Service.Controllers
             _chatGPTService = chatGPTService;
         }
 
-        [HttpPost("question"), Authorize]
+        [HttpPost("question")]
         [SwaggerOperation(Summary = "")]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(List<object>))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
