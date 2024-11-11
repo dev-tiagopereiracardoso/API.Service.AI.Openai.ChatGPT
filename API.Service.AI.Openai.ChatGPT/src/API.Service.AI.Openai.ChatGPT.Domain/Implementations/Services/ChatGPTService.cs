@@ -6,7 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RestSharp;
+using System;
 using System.Net;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
 {
@@ -71,7 +74,7 @@ namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
             }
             else
             {
-                answer = SendMessage(openApiKey, Obj.UrlImage, Obj.Question);
+                answer = await SendMessage(openApiKey, Obj.UrlImage, Obj.Question);
             }
 
             if (answer == null)
@@ -101,7 +104,7 @@ namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
             return Validation;
         }
 
-        private string SendMessage(string OpenApiKey, string UrlImage, string Question)
+        private async Task<string> SendMessage(string OpenApiKey, string UrlImage, string Question)
         {
             var _client = new RestClient("https://api.openai.com/v1/chat/completions");
 
@@ -109,7 +112,11 @@ namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Authorization", $"Bearer {OpenApiKey}");
 
-            var requestBody = "{ \"model\": \"gpt-4o-mini\", \"messages\": [{ \"role\": \"user\", \"content\": [ { \"type\": \"text\", \"text\": \"" + Question + "\" }, { \"type\": \"image_url\", \"image_url\": { \"url\": \"" + UrlImage + "\" } }] }], \"max_tokens\": 300 }";
+            var encodedBase64 = GetImageAsBase64Async(UrlImage).Result;
+
+            var extension = (UrlImage.Contains(".jpg")) ? "jpeg" : "png";
+
+            var requestBody = "{ \"model\": \"gpt-4o-mini\", \"messages\": [{ \"role\": \"user\", \"content\": [ { \"type\": \"text\", \"text\": \"" + Question + "\" }, { \"type\": \"image_url\", \"image_url\": { \"url\": \"data:image/"+ extension + ";base64," + encodedBase64 + "\" } }] }], \"max_tokens\": 300 }";
 
             request.AddJsonBody(requestBody);
 
@@ -118,6 +125,16 @@ namespace API.Service.AI.Openai.ChatGPT.Domain.Implementations.Services
             var jsonResponse = JsonConvert.DeserializeObject<dynamic>(response.Content ?? string.Empty);
 
             return jsonResponse?.choices[0]?.message?.content?.ToString()?.Trim() ?? string.Empty;
+        }
+
+        private async Task<string> GetImageAsBase64Async(string url)
+        {
+            using (var client = new HttpClient())
+            {
+                var bytes = await client.GetByteArrayAsync(url);
+                var base64String = Convert.ToBase64String(bytes);
+                return base64String;
+            }
         }
     }
 }
